@@ -1,0 +1,18 @@
+<?php
+
+namespace DummyNamespace;
+
+use App\Entities\BaseRepository;
+use Illuminate\Database\Eloquent\Model;
+
+class DummyClass extends BaseRepository
+{
+    protected $model;
+
+    public function __construct(DummyModel $model)
+    {
+        parent::__construct($model);
+    }
+
+
+}

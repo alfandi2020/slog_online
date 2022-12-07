@@ -1,0 +1,63 @@
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <div class="col-sm-6">
+                <legend>{{ trans('receipt.consignor') }}</legend>
+                {!! FormField::text('consignor_name', [
+                    'label' => trans('app.name'),
+                    'required' => true,
+                    'value' => $receipt->consignor['name']]) !!}
+                {!! FormField::text('consignor_address[1]', [
+                    'label' => trans('address.address'),
+                    'required' => true,
+                    'value' => $receipt->consignor['address'][1]]) !!}
+                {!! FormField::text('consignor_address[2]', [
+                    'label' => false, 'value' => $receipt->consignor['address'][2]]) !!}
+                {!! FormField::text('consignor_address[3]', [
+                    'label' => false, 'value' => $receipt->consignor['address'][3]]) !!}
+                <div class="row">
+                    <div class="col-sm-6">{!! FormField::text('consignor_postal_code', [
+                        'label' => trans('address.postal_code'),
+                        'value' => $receipt->consignor['postal_code']]) !!}
+                    </div>
+                    <div class="col-sm-6">{!! FormField::text('consignor_phone', [
+                        'label' => trans('contact.phone'),
+                        'required' => true,
+                        'value' => $receipt->consignor['phone']]) !!}
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <legend>{{ trans('receipt.consignee') }}</legend>
+                {!! FormField::text('consignee_name', [
+                    'label' => trans('app.name'),
+                    'required' => true,
+                    'value' => $receipt->consignee['name']]) !!}
+                {!! FormField::text('consignee_address[1]', [
+                    'label' => trans('address.address'),
+                    'required' => true,
+                    'value' => $receipt->consignee['address'][1]]) !!}
+                {!! FormField::text('consignee_address[2]', [
+                    'label' => false, 'value' => $receipt->consignee['address'][2]]) !!}
+                {!! FormField::text('consignee_address[3]', [
+                    'label' => false, 'value' => $receipt->consignee['address'][3]]) !!}
+                <div class="row">
+                    <div class="col-sm-6">{!! FormField::text('consignee_postal_code', [
+                        'label' => trans('address.postal_code'),
+                        'value' => $receipt->consignee['postal_code']]) !!}
+                    </div>
+                    <div class="col-sm-6">{!! FormField::text('consignee_phone', [
+                        'label' => trans('contact.phone'),
+                        'required' => true,
+                        'value' => $receipt->consignee['phone']]) !!}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <?php $submitValue = $submitValue ?? 'Submit' ?>
+        {{ Form::submit($submitValue, ['class' => 'btn btn-info']) }}
+    </div>
+</div>

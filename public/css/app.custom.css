@@ -1,0 +1,80 @@
+/* Body */
+body { font-family: "Trebuchet MS", serif; }
+@media print {
+    a[href]:after {
+        content: none !important;
+    }
+}
+/* End of Body */
+
+/* Top Navbar */
+.navbar-static-top { z-index: 10; }
+.navbar-btn { margin-top: 6px; margin-bottom: 6px; }
+/* End of Top Navbar */
+
+/* Top Side Nav */
+.sidebar .nav>li>a { padding: 8px 12px; }
+.sidebar .nav-second-level > li > a { padding-left: 30px; }
+.sidebar .nav-third-level > li > a { padding-left: 45px; }
+.sidebar li.sidebar-search a { padding: 0; }
+.sidebar li.sidebar-search a.active, .sidebar li.sidebar-search a:hover { background: none; }
+@media screen and (min-width: 768px) {
+    .sidebar { margin-top: 1px; width: 215px; }
+    #page-wrapper { margin-left: 215px; }
+}
+/* End of Top Side Nav */
+
+.nav-tabs>li>a { padding: 6px 10px; border-color: #eee #eee #ddd; }
+.show-on-hover { display: none; }
+.show-on-hover-parent:hover .show-on-hover { display: inline; }
+
+/* Table */
+table .text-middle { vertical-align: middle !important; }
+table.small-text { font-size: 12px; }
+
+.table .form-group { margin-bottom: 0px; }
+.table .form-group .form-control { border-radius: 0px; padding: 4px 6px; height: 26px; }
+/* End of Table */
+
+/* Input */
+input.table-input { height:20px;width:80px; }
+/* End of Input */
+
+/* Layout */
+.page-header { margin-top: 0px; }
+h3.page-header { padding-bottom: 15px; }
+@media print {
+    #page-wrapper { margin-left: 0px; border: none; }
+}
+/* End of Layout */
+
+.strong { font-weight: bold; }
+.form-group.required .control-label { position: relative; }
+.form-group.required .control-label:after { content: "*"; color: red; font-size: 16px; position: absolute; top: -4px; right: -9px; }
+.select2-container .select2-selection--single { height: 34px; min-height: 34px; }
+.select2-container--default .select2-selection--single .select2-selection__rendered { padding-top: 2px; }
+.select2-container--default .select2-selection--single .select2-selection__arrow { height: 30px; }
+ul.receipt-drafts-list>li>a { padding: 6px 8px; border-color: #eee #eee #ddd; }
+ul.receipt-drafts-list>li>a .remove-receipt-draft { color: #ddd; }
+ul.receipt-drafts-list>li>a:hover .remove-receipt-draft { color: inherit; }
+div.notifier { z-index: 100; position: absolute; top: 30px; left: 50%; transform: translate(-50%,-50%); }
+
+/* Customer */
+ul.underlined-tabs { border: none; }
+/*ul.underlined-tabs li { border-right: 1px solid #eaeaea; }*/
+/*ul.underlined-tabs li:nth-last-child(1) {  border-right: none; }*/
+ul.underlined-tabs li a { border: none; border-radius: 0; }
+ul.underlined-tabs li.active a { border: none; border-bottom: 2px solid #ccc; }
+ul.underlined-tabs li a:hover { background: none; }
+ul.underlined-tabs li.active a:hover { border: none; border-bottom: 2px solid #ccc; }
+ul.underlined-tabs > li {
+    float:none;
+    display:inline-block;
+    *display:inline; /* ie7 fix */
+     zoom:1; /* hasLayout ie7 trigger */
+}
+
+ul.underlined-tabs {
+    text-align:center;
+}
+/* End of Customer */

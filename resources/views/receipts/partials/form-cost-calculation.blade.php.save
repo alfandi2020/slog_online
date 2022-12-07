@@ -1,0 +1,153 @@
+@inject('customer', 'App\Entities\Customers\Customer')
+@inject('regionQuery', 'App\Entities\Regions\RegionQuery')
+@inject('service', 'App\Entities\Services\Service')
+@inject('reference', 'App\Entities\References\Reference')
+
+@include('receipts.partials.receipt-draft-step-nav', compact('buttonLinks'))
+
+{{ Form::open() }}
+{{ Form::hidden('orig_city_id', $receipt->orig_city_id, ['id' => 'orig_city_id']) }}
+{{ Form::hidden('orig_district_id', $receipt->orig_district_id, ['id' => 'orig_district_id']) }}
+<div class="panel panel-default">
+    <div class="panel-body">
+        <div class="row">
+            <fieldset class="col-md-3">
+                {!! FormField::select('customer_id', $customer->isActive()->pluck('name','id'), [
+                    'label' => trans('customer.customer'),
+                    'value' => request('customer_id', $receipt->customer_id),
+                    'class' => 'select2',
+                    'placeholder' => trans('customer.retail'),
+                ]) !!}
+                {!! FormField::select('dest_city_id', $destinationCities, [
+                    'label' => trans('rate.dest_city'),
+                    'value' => request('dest_city_id', $receipt->dest_city_id),
+                    'class' => 'select2',
+                    'required' => true,
+                ]) !!}
+                {!! FormField::select('dest_district_id', $destinationDistricts, [
+                    'label' => trans('rate.dest_district'),
+                    'value' => request('dest_district_id', $receipt->dest_district_id),
+                    'class' => 'select2',
+                ]) !!}
+                {!! FormField::radios('service_id', $service->ratailAndSalDropdown(), [
+                    'label' => trans('service.service'),
+                    'value' => request('service_id', $receipt->service_id),
+                    'required' => true,
+                ]) !!}
+            </fieldset>
+            <fieldset class="col-md-6">
+                <div class="row">
+                    <div class="col-md-4">
+                        {!! FormField::text('charged_weight', [
+                            'label' => trans('receipt.charged_weight'),
+                            'addon' => ['after' => 'Kg'],
+                            'readonly' => $receipt->itemsCount(),
+                            'class' => 'text-right',
+                            'value' => $receipt->getChargedWeight() ?: $receipt->charged_weight ?: 1,
+                            'required' => true,
+                        ]) !!}
+                        {!! FormField::text('pcs_count', [
+                            'label' => trans('receipt.pcs_count'),
+                            'addon' => ['after' => 'Koli'],
+                            'class' => 'text-right',
+                            'value' => $receipt->pcs_count ?: 1,
+                            'required' => true,
+                        ]) !!}
+                        {!! FormField::text('items_count', [
+                            'label' => trans('receipt.items_count'),
+                            'addon' => ['after' => 'Dus'],
+                            'readonly' => $receipt->itemsCount(),
+                            'class' => 'text-right',
+                            'value' => $receipt->itemsCount() ?: $receipt->items_count ?: 1,
+                            'required' => true,
+                        ]) !!}
+                        {!! FormField::radios('charged_on', [1 => trans('receipt.charged_on_weight'), trans('receipt.charged_on_item')], [
+                            'label' => trans('receipt.charged_on'),
+                            'value' => $receipt->charged_on ?: 1,
+                            'required' => true,
+                        ]) !!}
+                    </div>
+                    <div class="col-md-4">
+                        {!! FormField::radios('pack_type_id', $reference::whereCat('pack_type')->pluck('name','id')->all(), [
+                            'label' => trans('receipt.pack_type'),
+                            'list_style' => 'unstyled',
+                            'value' => $receipt->pack_type_id ?: 1,
+                            'required' => true,
+                        ]) !!}
+                        {!! FormField::price('discount', [
+                            'label' => trans('receipt.discount'),
+                            'value' => $receipt->discount ?: 0,
+                        ]) !!}
+                        {!! FormField::radios('admin_fee', [1 => trans('app.yes'), 0 => trans('app.no')], [
+                            'label' => trans('receipt.admin_fee'),
+                            'value' => ! $receipt->admin_fee ? 0 : 1,
+                            'required' => true,
+                        ]) !!}
+                    </div>
+                    <div class="col-md-4">
+                        {!! FormField::radios('be_insured', [trans('app.no'),trans('app.yes')], [
+                            'label' => trans('receipt.be_insured'),
+                            'value' => $receipt->be_insured ?: 0,
+                            'required' => true,
+                        ]) !!}
+                        {!! FormField::price('package_value', [
+                            'label' => trans('receipt.package_value'),
+                            'readonly' => ! $receipt->be_insured,
+                            'value' => $receipt->package_value ?: 0,
+                        ]) !!}
+                        
+{!! FormField::price('packing_cost', [
+                            'label' => trans('receipt.packing_cost'),
+                            'value' => $receipt->packing_cost ?: 0,
+                        ]) !!}
+                        {!! FormField::price('add_cost', [
+                            'label' => trans('receipt.add_cost'),
+                            'value' => $receipt->add_cost ?: 0,
+                        ]) !!}
+                    </div>
+                </div>
+            </fieldset>
+            <fieldset class="col-md-3">
+                <table class="table">
+                    <tr>
+                        <td>{{ trans('receipt.base_charge') }}</td>
+                        <th id="display_base_charge" class="text-right">{{ formatRp($receipt->base_charge) }}</th>
+                    </tr>
+                    <tr>
+                        <td>{{ trans('receipt.discount') }}</td>
+                        <td id="display_discount" class="text-right">{{ formatRp($receipt->discount) }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ trans('receipt.subtotal') }}</td>
+                        <th id="display_subtotal" class="text-right">{{ formatRp($receipt->subtotal) }}</th>
+                    </tr>
+                    <tr>
+                        <td>{{ trans('receipt.packing_cost') }}</td>
+                        <td id="display_packing_cost" class="text-right">{{ formatRp($receipt->packing_cost) }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ trans('receipt.add_cost') }}</td>
+                        <td id="display_add_cost" class="text-right">{{ formatRp($receipt->add_cost) }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ trans('receipt.insurance_cost') }}</td>
+                        <td id="display_insurance_cost" class="text-right">{{ formatRp($receipt->insurance_cost) }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ trans('receipt.admin_fee') }}</td>
+                        <td id="display_admin_fee" class="text-right">{{ formatRp($receipt->admin_fee) }}</td>
+                    </tr>
+                    <tr>
+                        <td>{{ trans('app.total') }}</td>
+                        <th id="display_total" class="text-right">{{ formatRp($receipt->total) }}</th>
+                    </tr>
+                </table>
+            </fieldset>
+        </div>
+    </div>
+    <div class="panel-footer">
+        <a id="calculate_charge" class="btn btn-info">{{ trans('receipt.calculate_cost') }}</a>
+        {{ link_to_route('receipts.draft', trans('receipt.detailing_items'), [$receipt->receiptKey, 'step' => 2], ['class' => 'btn btn-default']) }}
+    </div>
+</div>
+{{ Form::close() }}
